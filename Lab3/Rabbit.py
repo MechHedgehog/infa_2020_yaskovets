@@ -1,5 +1,6 @@
 import pygame
 from pygame.draw import *
+import math
 
 pygame.init()
 
@@ -102,6 +103,14 @@ def draw_wings(surface, x, y, height, width, color):
         line(surface, color, (x + m[i - 1][0], y + m[i - 1][1]), (x + m[i][0], y + m[i][1]), 3)
         line(surface, color, (x + width - m[i - 1][0], y + m[i - 1][1]), (x + width - m[i][0], y + m[i][1]), 3)
 
+    n = [(x + width // 4, y + height // 3, 50), (x + 3 * width // 4, y + height // 3, 50),
+         (x + 7 * width // 24, y + 7 * height // 10, 80), (x + 17 * width // 24, y + 7 * height // 10, 80),
+         (x + width // 5, y + 2 * height // 5, 40), ( x + 3 * width // 10, y + 2 * height // 5, 40),
+         (x + 7 * width // 10, y + 2 * height // 5, 40), (x + 4 * width // 5, y + 2 * height // 5, 40)]
+
+    for i in n:
+        draw_star(surface, *i, RED)
+
 
 def draw_body(surface, x, y, height, width, color):
     '''
@@ -121,6 +130,30 @@ def draw_body(surface, x, y, height, width, color):
         '''
     ellipse(surface, color, (x + width // 2 - width // 20, y + height // 2, width // 10, height // 2))
     draw_wings(surface, x, y, height, width, color)
+
+
+def draw_star(surface, x, y, r, color):
+    '''
+    function draws Satan's star
+
+    Parameters
+    ----------
+    5 components pygame.surface, int, int, in,  tuple(int, int)
+    surface -- surface on which rabbit will be drawn
+    x, y -- coordinates of star center
+    r -- star radius
+    color -- star's color
+
+    Returns
+    -------
+    Return type is void
+    '''
+
+    for i in range(5):
+        k = (i + 2) % 5
+        p1 = (int(x + r * math.cos(2 * pi * i / 5 + pi / 10)), int(y + r * math.sin(2 * pi * i / 5 + pi / 10)))
+        p2 = (int(x + r * math.cos(2 * pi * k / 5 + pi / 10)), int(y + r * math.sin(2 * pi * k / 5 + pi / 10)))
+        line(surface, color, p1, p2, 5)
 
 
 def draw_rabbit(surface, x, y, height, width, color):
@@ -145,6 +178,9 @@ def draw_rabbit(surface, x, y, height, width, color):
 
 
 draw_rabbit(screen, 0, 0, screen_width, screen_height, WHITE)
+
+
+
 
 pygame.display.update()
 clock = pygame.time.Clock()
